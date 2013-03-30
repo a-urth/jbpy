@@ -1,13 +1,33 @@
 from PySide import QtCore
-#from sleekxmpp import BaseXMPP
 
 
 class Signals(QtCore.QObject):
 
-    clientConnected = QtCore.Signal()
-    messageReceived = QtCore.Signal(dict)
-    messageSent = QtCore.Signal(str, str)
-    authorizationFailed = QtCore.Signal()
+    session_start = QtCore.Signal(dict)
+
+    rosterChanged = QtCore.Signal(dict)
+
+    message_received = QtCore.Signal(dict)
+
+    auth_failed = QtCore.Signal()
+
+    disconnected = QtCore.Signal()
+
+    contact_online = QtCore.Signal(dict)
+
+    muc_contact_online = QtCore.Signal(dict)
+
+    contact_offline = QtCore.Signal(dict)
+
+    muc_contact_offline = QtCore.Signal(dict)
+
+    subs_in = QtCore.Signal(str)
+
+    unsubs_in = QtCore.Signal(str)
 
 
-SIGNALS = Signals()
+_SIGNALS = Signals()
+
+
+def getSignals():
+    return _SIGNALS

@@ -10,10 +10,19 @@ WHITE = (255, 255, 255)
 
 
 def formHtmlMessage(_from, msg):
-    message = ''.join(['<p style="color:#0B615E">',
+    msg = msg.replace('<', '&#60').replace('>', '&#62')
+
+    message = ''.join([
+                       '<span style="color:#0B615E">',
                        datetime.datetime.today().strftime('%Y/%m/%d %H:%M:%S'),
-                       '</p>', '<p style="color:#B43104">', _from, '</p>',
-                       '<p style="color:#190B07">', msg, '</p>', '<hr><br>'])
+                       '</span>',
+                       '<span style="color:#B43104">', ' - ', _from,
+                       '</span>',
+                       '<pre>',
+                       '<span style="color:#190B07">', msg, '</span>',
+                       '</pre>'
+                       '<hr><br>'
+                      ])
     return message
 
 

@@ -1,7 +1,6 @@
 import sleekxmpp
 import ssl
 import logging
-import sys
 
 
 class SleekXMPPClient(sleekxmpp.ClientXMPP):
@@ -14,11 +13,11 @@ class SleekXMPPClient(sleekxmpp.ClientXMPP):
         self.add_event_handler('message', self.onMessage)
 
         self.register_plugin('xep_0030')
-        self.register_plugin('xep_0199')        
+        self.register_plugin('xep_0199')
 
-        if self.connect():
-            logging.info('Bot connected...')            
-            self.process(block=False)            
+        if self.connect(reattempt=False):
+            logging.info('Bot connected...')
+            self.process(block=False)
         else:
             print 'Could not connect!'
 
@@ -35,4 +34,4 @@ class SleekXMPPClient(sleekxmpp.ClientXMPP):
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
-    client = SleekXMPPClient('echobot@cebuad002', 'tobohce')
+    client = SleekXMPPClient('echobot@free2use', 'tobohce')

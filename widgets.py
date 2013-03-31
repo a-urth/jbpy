@@ -163,6 +163,7 @@ class ChatWindow(QtGui.QMainWindow):
     def closeEvent(self, event):
         if self.is_muc:
             self.client.leave_muc(self.id_, self.nick)
+            event.accept()
         self.hide()
         event.ignore()
 

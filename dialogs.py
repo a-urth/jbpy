@@ -24,9 +24,7 @@ class LoginDialog(QtGui.QDialog):
 
         self.login = QtGui.QPushButton('Login')
         self.login.clicked.connect(self.accept)
-        exit = QtGui.QPushButton('Cancel')
-        exit.setDefault(True)
-        exit.clicked.connect(self.reject)
+        self.login.setDefault(True)
 
         hl1 = QtGui.QHBoxLayout()
         hl1.addWidget(QtGui.QLabel('Jabber ID'))
@@ -36,14 +34,10 @@ class LoginDialog(QtGui.QDialog):
         hl2.addWidget(QtGui.QLabel('Password'))
         hl2.addWidget(self.pwd)
 
-        hl3 = QtGui.QHBoxLayout()
-        hl3.addWidget(self.login)
-        hl3.addWidget(exit)
-
         vl = QtGui.QVBoxLayout()
         vl.addLayout(hl1)
         vl.addLayout(hl2)
-        vl.addLayout(hl3)
+        vl.addWidget(self.login)
 
         self.setLayout(vl)
 

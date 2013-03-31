@@ -86,11 +86,11 @@ class ContactList(QtGui.QMainWindow):
         self.setCentralWidget(self.contacts)
 
     def initTray(self):
-        exit = QtGui.QAction('&Exit', self)
-        exit.triggered.connect(self.close)
+        exit_ = QtGui.QAction('&Exit', self)
+        exit_.triggered.connect(self.close)
 
         tray_menu = QtGui.QMenu('Tray Context Menu')
-        tray_menu.addAction(exit)
+        tray_menu.addAction(exit_)
 
         self.disc_icon = QtGui.QIcon(self.DISCONNECTED_TRAY_ICON)
         self.conn_icon = QtGui.QIcon(self.CONNECTED_TRAY_ICON)
@@ -166,17 +166,28 @@ class ContactList(QtGui.QMainWindow):
         else:
             event.ignore()
 
+    def changeEvent(self, event):
+        '''Overloaded changeEvent for catching
+            if window activated, change tray icon'''
+        if event.type() == QtCore.QEvent.ActivationChange:
+            self.tray.setIcon(self.conn_icon)
+        event.accept()
+
 # ---EXTERNAL SIGNALS---
     @QtCore.Slot()
     def onTrayMessageClicked(self):
+        self.tray.setIcon(self.conn_icon)
         if self.isMinimized():
             self.showNormal()
+        self.activateWindow()
 
     @QtCore.Slot()
     def onTrayActivated(self, reason):
         if reason == QtGui.QSystemTrayIcon.DoubleClick:
+            self.tray.setIcon(self.conn_icon)
             if self.isMinimized():
                 self.showNormal()
+                self.activateWindow()
             else:
                 self.showMinimized()
 
@@ -212,13 +223,15 @@ class ContactList(QtGui.QMainWindow):
             #if there is created window - write there
             area.chat.writeMessageToArea(message)
             #if window is visible, then there is nothing to do
-            if area.isVisible():
+            if area.isVisible() and area.isActiveWindow():
+                print 'visible and active'
                 return
         #if there is no window or window is invisible
         #show tray notification (if possible)
         #and change icon in contact list (onlu for normal messages)
-        if is_muc:
+        if not is_muc:
             self.contacts.setUnreadMessage(_from)
+        self.tray.setIcon(self.mess_icon)
         if self.tray.supportsMessages():
             self.tray.showMessage(
                 _from,

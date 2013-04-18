@@ -10,7 +10,7 @@ class LoginDialog(QtGui.QDialog):
 
     def __init__(self, parent):
         super(LoginDialog, self).__init__(parent=parent)
-        self.reg = r'[\w\d]+@[\w\d]+$'
+        self.reg = r'[\w\d]+@[\w\d.]+$'
         self.setSizeGripEnabled(False)
         self.setWindowTitle('Login')
         self.initUI()
